@@ -1,4 +1,4 @@
-# route
+# router
 
 ## Project setup
 ```

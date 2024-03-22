@@ -1,22 +1,37 @@
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue -router';
-
-createApp(App).mount('#app')
 
 import App from './App.vue'
-
-import homeRoute from './components/homeRoute.vue';
-import aboutRoute from './components/aboutRoute.vue';
-import contactRoute from './components/contactRoute.vue';
-
+import routes from './routes';
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-history: createWebHistory(), // For HTML5 history mode URLs
-routes: [
-    { path: '/', component: homeRoute, name: 'homeRoute' },
-    { path: '/aboutRoute', component: aboutRoute, name: 'aboutRoute' },
-    { path: '/contactRoute', component: contactRoute, name: 'contactRoute' },
-    
-]
+    history: createWebHistory(),
+    routes,
+});
+
+router.beforeEach((to, from, next) => {
+    console.log('Navigation guard triggered');
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        alert('Cannot access, Must login');
+        next('/'); 
+    } else {
+        
+        next(); // Allow navigation
+    }
+});
+
+router.afterEach((to, from) => {
+    console.log(`Navigated from ${from.path} to ${to.path}`);
 });
 export default router;
+
+const app = createApp(App);
+app.use(router); // Use the router plugin
+app.mount('#app');
+
+
+
+
+

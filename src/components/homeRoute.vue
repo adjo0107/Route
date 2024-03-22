@@ -1,58 +1,90 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
-</template>
+<div class="product-list">
+<h1>Login</h1>
+    
+    <input v-model="username" type="text" placeholder="Username" > 
+    <br>
+    <input v-model="password" type="password" placeholder="Password">
+    <br>
+    <button class="add-to-cart-button" @click="toggleAuthentication">Login</button>
+    </div>
+</template>       
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+export default{
+    name: 'homeRoute',
+    data () {
+        return {
+            username: '',
+            
+        };
+    },
+    methods: {
+    toggleAuthentication () {
+        if (!this.username || !this.password) {
+            alert('Please input fields');
+            return;
+        }
+        let isAuthenticated = localStorage.getItem('isAuthenticated');
+        isAuthenticated = isAuthenticated === 'true';
+        isAuthenticated = !isAuthenticated;
+       localStorage.setItem('isAuthenticated', isAuthenticated ? 'true' : 'false');
+      
+      if (isAuthenticated) {
+
+        this.$router.push({ name: 'about' });
+
+      }
+    },
+    toggleAuthenticationOff () {
+        localStorage.setItem('isAuthenticated', 'false');
+        }
+    
+    },
+    
+
 }
+
+
+
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style scope>
+.add-to-cart-button {
+    
+    padding: 5px 10px;
+    background-color: #F3E0B5;
+    font-family: Courier new, monospace;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .add-to-cart-button:hover {
+    background-color: #FF6701;
+  }
+  input[type=text] {
+  
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #FF6701;
+  border-radius: 4px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+input[type=password] {
+  
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #FF6701;
+  border-radius: 4px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+.product-list {
+     
+  background-color: #FECD70;
+  padding: 20px 0px 90px;
+  margin: 30px 550px;
+  border-radius: 40px;
+  }
 </style>
